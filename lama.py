@@ -25,7 +25,7 @@ def run_file(filename):
         print(f"Error: File '{filename}' not found.")
 
 def run_repl():
-    print("🦙 LAMA REPL v1.0")
+    print("LAMA REPL v1.0")
     print("Type 'exit' or 'quit' to exit.")
 
     interpreter = Interpreter(get_globals())
@@ -41,7 +41,7 @@ def run_repl():
             break
 
 def print_usage():
-    print("🦙 LAMA Language CLI")
+    print("LAMA Language CLI")
     print()
     print("Usage:")
     print("  lama run <file.lama>          Run a Lama script")
@@ -52,6 +52,7 @@ def print_usage():
     print("  lama uninstall <name>         Remove a package from modules/")
     print("  lama list                     List installed packages")
     print("  lama packages                 List all available packages")
+    print("  lama init                     Initialize a new LAMA project")
 
 def main():
     if len(sys.argv) < 2:
@@ -60,14 +61,14 @@ def main():
 
     command = sys.argv[1]
 
-    # ── Package management ───────────────────────────────────────────────
+    # -- Package management -----------------------------------------------
     if command == "install":
         from package_manager import install_package, install_all
         if len(sys.argv) >= 3:
-            print(f"🦙 Installing '{sys.argv[2]}'…")
+            print(f"Installing '{sys.argv[2]}'...")
             install_package(sys.argv[2])
         else:
-            print("🦙 Installing dependencies from lama.json…")
+            print("Installing dependencies from lama.json...")
             install_all()
         return
 
@@ -89,7 +90,12 @@ def main():
         list_available()
         return
 
-    # ── Script / REPL ────────────────────────────────────────────────────
+    if command == "init":
+        from package_manager import init_project
+        init_project()
+        return
+
+    # -- Script / REPL ----------------------------------------------------
     if command == "run" and len(sys.argv) >= 3:
         run_file(sys.argv[2])
     elif command == "repl":

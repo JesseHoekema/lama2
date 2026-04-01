@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="lama-lang",
     version="1.0.0",
-    description="🦙 LAMA — a beginner-friendly programming language",
+    description="LAMA - a beginner-friendly programming language",
     py_modules=[
         "lama",
         "lexer",

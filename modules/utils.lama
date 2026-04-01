@@ -1,4 +1,4 @@
-# utils module for LAMA – handy helper functions
+# utils module for LAMA - handy helper functions
 
 fn clamp(val, lo, hi):
     if val < lo:

@@ -1,4 +1,4 @@
-# greet.lama — A simple greeting package for LAMA
+# greet.lama - A simple greeting package for LAMA
 
 fn hello(name):
     say "Hello, {name}! Welcome to the LAMA community."

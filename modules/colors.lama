@@ -1,4 +1,4 @@
-# colors module for LAMA – provides ANSI escape codes for terminal coloring
+# colors module for LAMA - provides ANSI escape codes for terminal coloring
 
 fn red(text):
     return "\033[31m" + text + "\033[0m"

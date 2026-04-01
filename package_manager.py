@@ -16,15 +16,15 @@ import json
 import urllib.request
 import urllib.error
 
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 # BUILT-IN REGISTRY
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 BUILTIN_REGISTRY = {
     "colors": {
         "version": "1.0.0",
         "description": "ANSI color helpers for terminal output",
         "code": """\
-# colors module for LAMA – provides ANSI escape codes for terminal coloring
+# colors module for LAMA - provides ANSI escape codes for terminal coloring
 
 fn red(text):
     return "\\033[31m" + text + "\\033[0m"
@@ -49,7 +49,7 @@ fn reset(text):
         "version": "1.0.0",
         "description": "Common utility helpers",
         "code": """\
-# utils module for LAMA – handy helper functions
+# utils module for LAMA - handy helper functions
 
 fn clamp(val, lo, hi):
     if val < lo:
@@ -106,9 +106,9 @@ MODULES_DIR = "modules"
 # Official GitHub org where community packages live
 GITHUB_ORG = "lama-packages"
 
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 # lama.json helpers
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 
 def load_manifest():
     if not os.path.exists(LAMA_JSON):
@@ -126,9 +126,50 @@ def ensure_modules_dir():
     os.makedirs(MODULES_DIR, exist_ok=True)
 
 
-# ─────────────────────────────────────────────
+def init_project():
+    if os.path.exists(LAMA_JSON):
+        print(f"  [Warning] '{LAMA_JSON}' already exists in this directory.")
+        return
+    
+    # Get current directory name for the project name
+    cwd = os.getcwd()
+    project_name = os.path.basename(cwd) or "my-lama-project"
+    
+    manifest = {
+        "name": project_name,
+        "version": "1.0.0",
+        "description": "A new LAMA project",
+        "main": "index.lama",
+        "dependencies": {}
+    }
+    
+    save_manifest(manifest)
+    
+    # Create a default index.lama if it doesn't exist
+    if not os.path.exists("index.lama"):
+        with open("index.lama", "w") as f:
+            f.write('''#!/usr/bin/env lama
+
+# Welcome to your new LAMA project!
+
+import time
+
+fn greet(name):
+    say "Hello, {name}! Welcome to the LAMA community."
+
+# Main execution
+say "=== LAMA PROJECT ==="
+greet("Developer")
+say "Current time: " + str(time.now())
+''')
+            
+    print(f"  [Done] Initialized LAMA project in {cwd}")
+    print(f"  [Info] Created {LAMA_JSON} and index.lama")
+
+
+# ---------------------------------------------
 # GitHub fetching
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 
 def _fetch_url(url):
     """Fetch raw text from a URL. Returns (content, error_message)."""
@@ -201,7 +242,7 @@ def fetch_from_github(name):
     Try to download a package from GitHub.
     Returns (code_str, mod_name, source_url) or raises RuntimeError.
     """
-    print(f"  🌐  Searching GitHub for '{name}'…")
+    print(f"  [Search] Searching GitHub for '{name}'...")
     
     # 1. Try to find a lama.json manifest first
     manifest_main = None
@@ -213,7 +254,7 @@ def fetch_from_github(name):
                 m_data = json.loads(m_content)
                 manifest_main = m_data.get("main")
                 mod_name_override = m_data.get("name")
-                print(f"  📜  Found manifest at {m_url}")
+                print(f"  [Manifest] Found manifest at {m_url}")
                 break
             except: pass
 
@@ -224,7 +265,7 @@ def fetch_from_github(name):
         code, err = _fetch_url(url)
         if code is not None:
             final_name = mod_name_override or default_mod_name
-            print(f"  📦  Found code at {url}")
+            print(f"  [Package] Found code at {url}")
             return code, final_name, url
     
     # If we got here, we failed
@@ -238,9 +279,9 @@ def fetch_from_github(name):
     raise RuntimeError(error_msg)
 
 
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 # Install a single package
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 
 def install_package(name, verbose=True):
     ensure_modules_dir()
@@ -256,7 +297,7 @@ def install_package(name, verbose=True):
         manifest["dependencies"][name] = pkg["version"]
         save_manifest(manifest)
         if verbose:
-            print(f"  ✅  Installed {name}@{pkg['version']} → modules/{name}.lama")
+            print(f"  [Success] Installed {name}@{pkg['version']} -> modules/{name}.lama")
         return True
 
     # 2. GitHub fetch
@@ -269,17 +310,17 @@ def install_package(name, verbose=True):
         manifest["dependencies"][mod_name] = {"source": source_url}
         save_manifest(manifest)
         if verbose:
-            print(f"  ✅  Installed {mod_name} from GitHub → modules/{mod_name}.lama")
+            print(f"  [Success] Installed {mod_name} from GitHub -> modules/{mod_name}.lama")
         return True
     except RuntimeError as e:
         if verbose:
-            print(f"  ❌  {e}")
+            print(f"  [Error] {e}")
         return False
 
 
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 # Install all from lama.json
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 
 def install_all(verbose=True):
     manifest = load_manifest()
@@ -287,14 +328,14 @@ def install_all(verbose=True):
     if not deps:
         print("  Nothing to install (no dependencies in lama.json).")
         return
-    print(f"  Installing {len(deps)} package(s)…")
+    print(f"  Installing {len(deps)} package(s)...")
     for name in deps:
         install_package(name, verbose=verbose)
 
 
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 # Uninstall a package
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 
 def uninstall_package(name):
     dest = os.path.join(MODULES_DIR, f"{name}.lama")
@@ -303,14 +344,14 @@ def uninstall_package(name):
         manifest = load_manifest()
         manifest["dependencies"].pop(name, None)
         save_manifest(manifest)
-        print(f"  🗑️   Uninstalled {name}")
+        print(f"  [Removed] Uninstalled {name}")
     else:
         print(f"  Package '{name}' is not installed.")
 
 
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 # List packages
-# ─────────────────────────────────────────────
+# ---------------------------------------------
 
 def list_packages():
     manifest = load_manifest()
@@ -321,13 +362,13 @@ def list_packages():
     print(f"  Installed packages ({len(deps)}):")
     for name, ver in deps.items():
         ver_str = ver if isinstance(ver, str) else ver.get("source", "github")
-        print(f"    • {name}  {ver_str}")
+        print(f"    * {name}  {ver_str}")
 
 
 def list_available():
     print("  Built-in packages:")
     for name, info in BUILTIN_REGISTRY.items():
-        print(f"    • {name}  v{info['version']}  – {info['description']}")
+        print(f"    * {name}  v{info['version']}  - {info['description']}")
     print()
     print("  You can also install any GitHub repo:")
     print("    lama install <user>/<repo>")

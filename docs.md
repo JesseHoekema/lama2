@@ -1,8 +1,23 @@
-# 🦙 LAMA Language Documentation
+# LAMA Language Documentation
 
 LAMA is a dynamically-typed, beginner-friendly programming language designed to be readable and extendable. It heavily features a Python-like syntax using indentation for scoping block structures.
 
 This document describes all available features, commands, syntax, and built-ins.
+
+---
+
+## 0. Installation
+To install the LAMA CLI globally on your system:
+
+1.  **Navigate to the LAMA directory** (where `setup.py` is located).
+2.  **Run the installation command**:
+    ```bash
+    pip3 install -e .
+    ```
+3.  **Verify**: You can now run `lama` from any directory.
+    ```bash
+    lama --help
+    ```
 
 ---
 
@@ -148,6 +163,26 @@ LAMA comes with a built-in package manager to install modules from GitHub or the
 - `lama uninstall <name>`: Remove an installed package.
 - `lama list`: Show all currently installed packages.
 - `lama packages`: Show available built-in packages.
+- `lama init`: Initialize a new project with a `lama.json` and `index.lama`.
+
+### Starting a New Project
+To start a new LAMA project from scratch:
+1.  **Run init**:
+    ```bash
+    lama init
+    ```
+2.  **Edit `index.lama`**: This is your entry point.
+3.  **Install tools**:
+    ```bash
+    lama install colors
+    ```
+
+### Project Structure
+A typical LAMA project looks like this:
+- `lama.json` - Project manifest (name, version, deps)
+- `index.lama` - Main entry point
+- `modules/` - Folder for installed packages
+- `scripts/` - (Optional) Your own sub-modules
 
 ### Creating & Publishing a Module
 To make your code available for others to install:
