@@ -1,0 +1,17 @@
+# counter module for LAMA
+
+class Counter:
+    fn init(self, start):
+        self.value = start
+
+    fn increment(self):
+        self.value = self.value + 1
+
+    fn decrement(self):
+        self.value = self.value - 1
+
+    fn get(self):
+        return self.value
+
+    fn reset(self):
+        self.value = 0

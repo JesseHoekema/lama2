@@ -1,0 +1,7 @@
+# greet.lama — A simple greeting package for LAMA
+
+fn hello(name):
+    say "Hello, {name}! Welcome to the LAMA community."
+
+fn goodbye(name):
+    say "Goodbye, {name}. See you soon!"

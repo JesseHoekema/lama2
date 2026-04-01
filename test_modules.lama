@@ -1,0 +1,32 @@
+# Full integration test for all installed modules
+
+say "=== utils ==="
+import utils
+say utils.max(3, 7)
+say utils.min(10, 4)
+say utils.clamp(15, 0, 10)
+say utils.abs_val(-42)
+
+say "=== colors ==="
+import colors
+say colors.red("Error!")
+say colors.green("Success!")
+say colors.bold("Bold text")
+
+say "=== counter (via module) ==="
+import counter
+c = counter.Counter(0)
+c.increment()
+c.increment()
+c.increment()
+say c.get()
+c.decrement()
+say c.get()
+c.reset()
+say c.get()
+
+say "=== from ... import ==="
+from utils import max
+say max(99, 1)
+
+say "ALL MODULE TESTS PASSED!"

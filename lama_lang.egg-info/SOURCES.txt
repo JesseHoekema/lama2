@@ -1,0 +1,12 @@
+builtins_lama.py
+interpreter.py
+lama.py
+lexer.py
+package_manager.py
+parser.py
+setup.py
+lama_lang.egg-info/PKG-INFO
+lama_lang.egg-info/SOURCES.txt
+lama_lang.egg-info/dependency_links.txt
+lama_lang.egg-info/entry_points.txt
+lama_lang.egg-info/top_level.txt

@@ -1,0 +1,92 @@
+# =========================================
+# LAMA LANGUAGE TEST SUITE
+# =========================================
+import greet as testing
+
+say "=== Basics & Math ==="
+name = "Jesse"
+age = 15
+pi = 3.14
+say "Hello {name}"
+say pi * 2
+say 10 % 3
+
+say "=== Conditions ==="
+x = 20
+if x > 10:
+    say "big"
+elif x == 10:
+    say "exact"
+else:
+    say "small"
+
+say "=== Loops ==="
+say "While loop:"
+c = 3
+while c > 0:
+    say c
+    c = c - 1
+
+say "For range:"
+for i in range(0, 3):
+    say i
+
+say "For in list:"
+nums = [10, 20, 30]
+for n in nums:
+    say n
+
+say "=== Functions ==="
+fn add(a, b):
+    return a + b
+
+result = add(2, 3)
+say "2 + 3 = " + str(result)
+
+say "=== Data Structures ==="
+nums.append(40)
+say nums[3]
+
+user = {
+    "name": "Jesse",
+    "age": 15
+}
+say user["name"]
+
+say "=== Imports ==="
+import math
+say math.add(10, 5)
+say math.random()
+
+say "=== Classes ==="
+class User:
+    fn init(self, name):
+        self.name = name
+
+    fn greet(self):
+        say "Hello from class: " + self.name
+
+u = User("JesseClass")
+u.greet()
+
+say "=== Exceptions ==="
+try:
+    bad = 10 / 0
+catch e:
+    say "Caught error: " + e
+
+say "=== File I/O ==="
+file = open("test_out.txt", "w")
+file.write("Hello File")
+file.close()
+
+file2 = open("test_out.txt", "r")
+content = file2.read()
+say "Read: " + content
+file2.close()
+
+say "ALL TESTS DONE!"
+
+say "=== Package Testing ==="
+testing.hello("Jesse")
+testing.goodbye("Jesse")

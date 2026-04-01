@@ -1,0 +1,19 @@
+# colors module for LAMA – provides ANSI escape codes for terminal coloring
+
+fn red(text):
+    return "\033[31m" + text + "\033[0m"
+
+fn green(text):
+    return "\033[32m" + text + "\033[0m"
+
+fn yellow(text):
+    return "\033[33m" + text + "\033[0m"
+
+fn blue(text):
+    return "\033[34m" + text + "\033[0m"
+
+fn bold(text):
+    return "\033[1m" + text + "\033[0m"
+
+fn reset(text):
+    return "\033[0m" + text

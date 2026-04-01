@@ -1,0 +1,15 @@
+{
+  "name": "my-lama-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "colors": "1.0.0",
+    "utils": "1.0.0",
+    "counter": "1.0.0",
+    "lama-package-testing": {
+      "source": "https://raw.githubusercontent.com/JesseHoekema/lama-package-testing/main/index.lama"
+    },
+    "greet": {
+      "source": "https://raw.githubusercontent.com/JesseHoekema/lama-package-testing/main/index.lama"
+    }
+  }
+}
